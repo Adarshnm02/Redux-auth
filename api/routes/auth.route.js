@@ -1,9 +1,10 @@
 import express from 'express'
-import { signup } from '../controllers/auth.controller.js';
+import { signup , signin} from '../controllers/auth.controller.js';
 
 
-const rooter = express.Router()
+const router = express.Router()
 
-rooter.post('/signup', signup)
+router.post('/signup', signup)
+router.post('/signin' , signin)
 
-export default rooter; 
+export default router; 
