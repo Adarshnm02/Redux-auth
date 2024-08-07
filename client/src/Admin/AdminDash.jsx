@@ -14,6 +14,23 @@ const AdminDash = () => {
       .catch(error => console.error("Error fetching users",error))
   },[])
 
+  const handleDelete = async (userId) => {
+    try {
+      const res = await fetch(`/api/adminAuth/deleteUser/${userId}`, {
+        method: 'DELETE'
+      });
+      if(!res.ok){
+        console.log("Fetching Fail");
+        return
+      }
+      const data = await res.json();
+      console.log("User deleted: ", data);
+      setUsers(users.filter(user => user._id !== userId)); 
+    } catch (error) {
+      console.log("Error deleting user: ", error);
+      
+    }
+  }
 
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center">
@@ -67,7 +84,7 @@ const AdminDash = () => {
                     </button>
                   </td>
                   <td className="border px-4 py-2">
-                    <button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
+                    <button onClick={()=> handleDelete(user._id)} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">
                       Delete
                     </button>
                   </td>
