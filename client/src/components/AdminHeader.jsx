@@ -23,10 +23,10 @@ const AdminHeader = () => {
         <h1 className="font-bold">Admin Dashboard</h1>
 
         <ul className="flex gap-4">
-          <li>
+          {/* <li>
             <Link to="/admin-home">Home</Link>
-          </li>
-            <span onClick={handleClickSignout} className="cursor-pointer">Sign Out</span>
+          </li> */}
+            <span onClick={handleClickSignout} className="cursor-pointer bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600">Sign Out</span>
         </ul>
       </div>
     </div>
