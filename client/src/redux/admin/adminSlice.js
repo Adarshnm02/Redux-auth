@@ -34,5 +34,5 @@ const adminSlice = createSlice({
 
 
 
-export const { signInStart, signInSuccess, signInFailure } = adminSlice.actions
+export const { signInStart, signInSuccess, signInFailure, signOut } = adminSlice.actions
 export default adminSlice.reducer

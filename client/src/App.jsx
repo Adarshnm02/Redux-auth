@@ -1,18 +1,24 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import Header from "./components/Header";
-import PrivetRoute from "./components/PrivetRoute";
+import { PrivetRoute, PrivetRouteForAdmin } from "./components/PrivetRoute";
 import AdminSignIn from "./Admin/AdminSignIn";
 import AdminDash from "./Admin/AdminDash";
+import AdminHeader from "./components/AdminHeader";
 
-const App = () => {
+
+const Layout = () => {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
   return (
-    <BrowserRouter>
-      <Header />
+   <>
+     {!isAdminRoute && <Header />}
+     {isAdminRoute && <AdminHeader />}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -21,9 +27,20 @@ const App = () => {
         <Route element={<PrivetRoute />}>
           <Route path="/profile" element={<Profile />} />
         </Route>
-        <Route path="/admin" element={<AdminSignIn />} />
-        <Route path="/adminDash" element={<AdminDash/>} />
+
+        <Route path="/admin-login" element={<AdminSignIn />} />
+        <Route element={<PrivetRouteForAdmin />}>
+          <Route path="/admin-home" element={<AdminDash />} />
+        </Route>
       </Routes>
+    </>
+  );
+};
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Layout />
     </BrowserRouter>
   );
 };

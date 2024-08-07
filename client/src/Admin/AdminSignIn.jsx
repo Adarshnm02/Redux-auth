@@ -30,7 +30,7 @@ const AdminSignIn = () => {
           return;
         }
         dispatch(signInSuccess(data))
-        navigate('/adminDash')
+        navigate('/admin-home')
       } catch (error) {
         dispatch(signInFailure(error))
       }

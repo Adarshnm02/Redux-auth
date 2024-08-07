@@ -7,7 +7,14 @@ const PrivetRoute = () => {
   return currentUser ? <Outlet /> : <Navigate to="/sign-in" />;
 };
 
-export default PrivetRoute;
 
 
 
+const PrivetRouteForAdmin = () => {
+  const { currentAdmin } = useSelector((state) => state.admin);
+  console.log("Privet route for admin", currentAdmin);
+  if(!currentAdmin || currentAdmin.admin === false) return <Navigate to="/admin-login"/>
+  return currentAdmin? <Outlet/> : <Navigate to="/admin-login" />
+ }
+
+ export { PrivetRoute , PrivetRouteForAdmin};
