@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
-
+import bcryptjs from 'bcryptjs';
 
 
 export const userDetails = async(req,res,next)=> {
@@ -36,12 +36,60 @@ export const searchUser = async(req, res, next) => {
                 { email: { $regex: search, $options: 'i' } }   
             ]
         });
-        console.log(users);
         if (!users || users.length === 0) {
             return res.status(400).json({ error: "No users found matching the search criteria." });
         }
         res.status(200).json(users);
     } catch (error) {
         next(error);
+    }
+}
+
+
+
+export const userSelectedToEdit = async(req,res,next) => {
+    console.log('here');
+    const userId = req.params.id;
+
+    try {
+        const validUsr = await User.findOne({_id: userId});
+        if(!validUsr) {
+            return next(errorHandler(401, 'user Not found'))
+        }
+        res.status(200).json(validUsr);
+    } catch (error) {
+        next(error)
+        console.log(error);
+        
+    }
+    
+}
+
+
+
+export const updateUser = async (req, res, next) => {
+    console.log("Update User");
+    
+    // const userId = req.params.id
+    try {
+        if (req.body.password) {
+            req.body.password = bcryptjs.hashSync(req.body.password, 10)
+        }
+        const updatedUser = await User.findByIdAndUpdate(
+            req.params.id,
+            {
+                $set: {
+                    username: req.body.username,
+                    email: req.body.email,
+                    password: req.body.password,
+                    profilePicture: req.body.profilePicture,
+                }
+            },
+            { new: true }
+        );
+        const { password, ...rest } = updatedUser._doc;
+        res.status(200).json(rest)
+    } catch (error) {
+        next(error)
     }
 }

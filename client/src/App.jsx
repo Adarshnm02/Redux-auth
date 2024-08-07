@@ -9,6 +9,7 @@ import { PrivetRoute, PrivetRouteForAdmin } from "./components/PrivetRoute";
 import AdminSignIn from "./Admin/AdminSignIn";
 import AdminDash from "./Admin/AdminDash";
 import AdminHeader from "./components/AdminHeader";
+import AdminEdit from "./Admin/AdminEdit";
 
 
 const Layout = () => {
@@ -31,6 +32,7 @@ const Layout = () => {
         <Route path="/admin-login" element={<AdminSignIn />} />
         <Route element={<PrivetRouteForAdmin />}>
           <Route path="/admin-home" element={<AdminDash />} />
+          <Route path="/admin-edit/:id" element={<AdminEdit />} />
         </Route>
       </Routes>
     </>

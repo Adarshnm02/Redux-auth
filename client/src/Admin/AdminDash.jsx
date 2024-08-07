@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom"
 const AdminDash = () => {
   const [users, setUsers] = useState([]);
   const [errorSearch, setErrorSearch] = useState(null);
   const [formData, setFormData] = useState({})
-
+  const navigate = useNavigate()
   useEffect(() => {
     fetch("/api/adminAuth/userDetails")
       .then((response) => response.json())
@@ -64,6 +64,13 @@ const AdminDash = () => {
       
     }
   } 
+
+  const handleEdit=(userId)=>{
+    console.log('clicked');
+    navigate(`/admin-edit/${userId}`)
+  }
+
+
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center">
       <div className="max-w-4xl w-full mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -95,7 +102,7 @@ const AdminDash = () => {
             <tr>
               <th className="px-4 py-2">Username</th>
               <th className="px-4 py-2">Email</th>
-              <th className="px-4 py-2">Edit</th>
+              <th  className="px-4 py-2">Edit</th>
               <th className="px-4 py-2">Delete</th>
             </tr>
           </thead>
@@ -112,7 +119,7 @@ const AdminDash = () => {
                   <td className="border px-4 py-2">{user.username}</td>
                   <td className="border px-4 py-2">{user.email}</td>
                   <td className="border px-4 py-2">
-                    <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                    <button onClick={()=>handleEdit(user._id)} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
                       Edit
                     </button>
                   </td>
