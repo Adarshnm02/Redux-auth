@@ -24,3 +24,24 @@ export const deleteUser = async(req, res, next) => {
         next(error)
     }
 }
+
+
+export const searchUser = async(req, res, next) => {
+    const { search } = req.body;
+    try {
+        const users = await User.find({
+            admin: { $ne: true },
+            $or: [
+                { username: { $regex: search, $options: 'i' } },
+                { email: { $regex: search, $options: 'i' } }   
+            ]
+        });
+        console.log(users);
+        if (!users || users.length === 0) {
+            return res.status(400).json({ error: "No users found matching the search criteria." });
+        }
+        res.status(200).json(users);
+    } catch (error) {
+        next(error);
+    }
+}

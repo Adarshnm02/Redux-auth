@@ -1,6 +1,6 @@
 import express from 'express';
 import { adminSignin, adminSignout} from '../../controllers/auth.controller.js';
-import { deleteUser, userDetails } from '../../controllers/admin.controller.js';
+import { deleteUser, userDetails, searchUser } from '../../controllers/admin.controller.js';
 
 const router = express.Router()
 
@@ -13,6 +13,7 @@ router.get('/admin-signout', adminSignout)
 router.get('/userDetails', userDetails)
 // render.get('/userDetails/:id', userDetails)
 router.delete('/deleteUser/:id', deleteUser)
+router.post('/search', searchUser)
 
 
 
